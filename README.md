@@ -44,11 +44,11 @@ Este projeto é um site comemorativo para as Bodas de Ouro de Zé Diniz e Maria 
 
 ## Estrutura do Projeto
 
-* **├── index.html
-* **├── style.css
-* **├── index.js
-* **├── img/
-* **│   └── qrcodes/
+* ├── index.html
+* ├── style.css
+* ├── index.js
+* ├── img/
+* │   └── qrcodes/
 
 
 ---
