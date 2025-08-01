@@ -9,11 +9,14 @@ Este projeto é um site comemorativo para as Bodas de Ouro de Zé Diniz e Maria 
 * [Recursos](#recursos)
 * [Tecnologias Utilizadas](#tecnologias-utilizadas)
 * [Estrutura do Projeto](#estrutura-do-projeto)
+* [API e Integração](#api-e-integracao)
 * [Configuração e Instalação](#configuração-e-instalação)
 * [Uso](#uso)
 * [Personalização](#personalização)
 * [Contribuindo](#contribuindo)
 * [Licença](#licença)
+
+---
 
 ## Recursos
 
@@ -27,48 +30,7 @@ Este projeto é um site comemorativo para as Bodas de Ouro de Zé Diniz e Maria 
 * **Integração com o Mercado Livre**: Opção de comprar diretamente os presentes sugeridos no Mercado Livre (ou outras plataformas de e-commerce) através de um link direto.
 * **Design Responsivo**: Otimizado para vários tamanhos de tela, desde dispositivos móveis até desktops.
 
-## Tecnologias Utilizadas
-
-* **HTML5**: Estrutura da página web.
-* **CSS3**: Estilização e design responsivo.
-* **JavaScript (ES6+)**: Aprimora a interatividade e o conteúdo dinâmico.
-* **Font Awesome**: Ícones utilizados em todo o site.
-* **Google Fonts**: Fontes personalizadas para títulos (`Playfair Display`) e texto (`Montserrat`).
-
-## Estrutura do Projeto
-
-Certo! Adicionarei o link no início da documentação para que seja facilmente visível e acessível.
-
-Markdown
-
-# Bodas de Ouro - Zé Diniz & Maria das Graças
-
-**Acesse a página aqui:** [https://convitebodas.netlify.app/](https://convitebodas.netlify.app/)
-
-Este projeto é um site comemorativo para as Bodas de Ouro de Zé Diniz e Maria das Graças, marcando 50 anos de seu amor e dedicação. O site apresenta a história do casal, uma galeria de fotos, detalhes do local do evento, um formulário de RSVP e uma seção de sugestões de presentes com integração Pix.
-
-## Sumário
-
-* [Recursos](#recursos)
-* [Tecnologias Utilizadas](#tecnologias-utilizadas)
-* [Estrutura do Projeto](#estrutura-do-projeto)
-* [Configuração e Instalação](#configuração-e-instalação)
-* [Uso](#uso)
-* [Personalização](#personalização)
-* [Contribuindo](#contribuindo)
-* [Licença](#licença)
-
-## Recursos
-
-* **Navegação com Rolagem Suave**: Navegação fácil para diferentes seções da página.
-* **Galeria de Fotos Dinâmica**: Um carrossel de imagens responsivo com reprodução automática, navegação manual (setas e pontos) e funcionalidade de deslize para dispositivos de toque.
-* **Seção "Nossa História"**: Uma seção dedicada para compartilhar a jornada do casal.
-* **Detalhes do Local do Evento**: Fornece informações sobre o local da cerimônia e recepção, data e hora, incluindo um link para o mapa.
-* **Formulário de RSVP**: Permite que os convidados confirmem sua presença e enviem uma mensagem ao casal. As submissões do formulário são integradas com o Google Sheets.
-* **Seção de Sugestões de Presentes**: Exibe itens de presentes sugeridos com imagens, títulos e preços de produtos.
-* **Doação Pix Integrada**: Os convidados podem optar por fazer uma doação Pix para um valor de presente sugerido, exibindo um QR code e um código "Pix Copia e Cola".
-* **Integração com o Mercado Livre**: Opção de comprar diretamente os presentes sugeridos no Mercado Livre (ou outras plataformas de e-commerce) através de um link direto.
-* **Design Responsivo**: Otimizado para vários tamanhos de tela, desde dispositivos móveis até desktops.
+---
 
 ## Tecnologias Utilizadas
 
@@ -77,6 +39,8 @@ Este projeto é um site comemorativo para as Bodas de Ouro de Zé Diniz e Maria 
 * **JavaScript (ES6+)**: Aprimora a interatividade e o conteúdo dinâmico.
 * **Font Awesome**: Ícones utilizados em todo o site.
 * **Google Fonts**: Fontes personalizadas para títulos (`Playfair Display`) e texto (`Montserrat`).
+
+---
 
 ## Estrutura do Projeto
 
@@ -84,8 +48,26 @@ Este projeto é um site comemorativo para as Bodas de Ouro de Zé Diniz e Maria 
 ├── style.css
 ├── index.js
 ├── img/
-│   └── qrcodes/
+│   └── qrcodes/
 
+
+---
+
+## API e Integração
+
+A funcionalidade do **Formulário de RSVP** e o salvamento dos dados são gerenciados por uma API simples, construída com **Google Apps Script**.
+
+Quando um convidado preenche e envia o formulário na página web, os dados são enviados como uma requisição `HTTP POST` para um URL específico do Google Apps Script.
+
+### Como a API funciona:
+1.  **Recebimento de Dados**: O script `doPost` recebe os dados do formulário, garantindo que os nomes dos parâmetros correspondam aos cabeçalhos das colunas na sua planilha do Google Sheets.
+2.  **Proteção contra Conflitos**: Um **bloqueio** (`LockService`) é utilizado para garantir que apenas uma requisição por vez possa escrever na planilha, evitando que os dados sejam corrompidos em caso de múltiplas submissões simultâneas.
+3.  **Processamento**: O script adiciona um carimbo de data/hora (`Timestamp`) e anexa uma nova linha à planilha `DadosBodas` com as informações do convidado.
+4.  **Resposta**: Envia uma mensagem de sucesso ou erro de volta para a página web, informando sobre o resultado da operação.
+
+A configuração dessa API é detalhada na seção de **Personalização**.
+
+---
 
 ## Configuração e Instalação
 
@@ -99,6 +81,8 @@ Para configurar este projeto localmente, siga estes passos:
 2.  **Abra o `index.html`:**
     Basta abrir o arquivo `index.html` em seu navegador da web. Não há processo de compilação necessário, pois é um site estático.
 
+---
+
 ## Uso
 
 * **Navegação**: Clique na seta "scroll down" na página inicial para navegar até a seção "Nossa História".
@@ -107,6 +91,8 @@ Para configurar este projeto localmente, siga estes passos:
 * **Sugestão de Presente**: Clique em "Escolher Presente" em qualquer card de produto. Um modal aparecerá, dando-lhe opções para "Fazer Pix" ou "Comprar Presente no Site".
     * **Pix**: Se você escolher "Fazer Pix", outro modal aparecerá com um QR code e um código "Pix Copia e Cola". Você pode copiar o código para a sua área de transferência.
     * **Mercado Livre**: Se você escolher "Comprar Presente no Site", você será redirecionado para a página do produto no Mercado Livre.
+
+---
 
 ## Personalização
 
@@ -143,7 +129,7 @@ O formulário de RSVP usa o Google Apps Script para enviar dados para uma Planil
 2.  **Obter URL do Script**:
     * Na Planilha Google, vá em `Extensões` > `Apps Script`.
     * Copie o código Apps Script fornecido (você precisará de um script básico para lidar com solicitações `POST` e anexar dados à planilha. Um padrão comum envolve uma função `doPost(e)`). Se você não tiver um, procure por "envio de formulário Google Apps Script para Planilha Google" para exemplos.
-    * Quando seu script estiver pronto, `Implantar` como um `Aplicativo da web`.
+    * Quando seu script estiver pronto, **Implante** como um **Aplicativo da web**.
     * Defina "Executar como" para "Eu" e "Quem tem acesso" para "Qualquer pessoa".
     * Copie a "URL do aplicativo da web" que é gerada.
 3.  **Atualize `scriptURL` em `index.js`**:
@@ -171,9 +157,13 @@ O formulário de RSVP usa o Google Apps Script para enviar dados para uma Planil
 * **Fontes**: Ajuste as propriedades `font-family`.
 * **Layout**: Ajuste o preenchimento, margens e outras propriedades de layout para corresponder às suas preferências.
 
+---
+
 ## Contribuindo
 
 Sinta-se à vontade para fazer um fork deste repositório, fazer alterações e enviar pull requests. Quaisquer melhorias, correções de bugs ou novos recursos são bem-vindos!
+
+---
 
 ## Licença
 
